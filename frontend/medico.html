@@ -9,8 +9,58 @@
 
     <style>
         /* =========================================================
+           ESTILOS GERAIS E CARDS
+           ========================================================= */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f9;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 16px;
+            margin-bottom: 12px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            margin-top: 0;
+            margin-bottom: 10px;
+            color: #007bff;
+        }
+
+        .card p {
+            margin: 4px 0;
+            font-size: 14px;
+        }
+
+        /* =========================================================
            BOTÕES
            ========================================================= */
+        .btn-atender {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 8px 14px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+
+        .btn-atender:hover {
+            background: #0056b3;
+        }
 
         .btn-tv {
             background: #28a745;
@@ -100,7 +150,6 @@
         /* =========================================================
            CONSULTÓRIO
            ========================================================= */
-
         .consultorio-input {
             display: flex;
             align-items: center;
@@ -129,7 +178,6 @@
         /* =========================================================
            CONTROLE DAS TELAS
            ========================================================= */
-
         #tela-painel {
             display: block;
         }
@@ -141,7 +189,6 @@
         /* =========================================================
            CABEÇALHO DA CONSULTA
            ========================================================= */
-
         .cabecalho-consulta {
             display: flex;
             justify-content: space-between;
@@ -158,7 +205,6 @@
         /* =========================================================
            IDENTIFICAÇÃO DO PACIENTE
            ========================================================= */
-
         .paciente-header {
             background: linear-gradient(135deg, #007bff, #0056b3);
             color: white;
@@ -180,13 +226,9 @@
         /* =========================================================
            DADOS DA TRIAGEM
            ========================================================= */
-
         .dados-triagem {
             display: grid;
-            grid-template-columns: repeat(
-                auto-fit,
-                minmax(180px, 1fr)
-            );
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
             gap: 12px;
             margin-bottom: 20px;
         }
@@ -223,7 +265,6 @@
         /* =========================================================
            ÁREA DA CONSULTA
            ========================================================= */
-
         .box-consulta {
             background: white;
             border: 1px solid #ddd;
@@ -278,7 +319,6 @@
         /* =========================================================
            AÇÕES DA CONSULTA
            ========================================================= */
-
         .acoes-consulta {
             display: flex;
             gap: 10px;
@@ -289,7 +329,6 @@
         /* =========================================================
            STATUS
            ========================================================= */
-
         .status-consulta {
             display: none;
             padding: 12px;
@@ -303,7 +342,6 @@
         /* =========================================================
            MODAL DE ALTA
            ========================================================= */
-
         .modal {
             display: none;
             position: fixed;
@@ -357,7 +395,6 @@
         /* =========================================================
            RESPONSIVIDADE
            ========================================================= */
-
         @media (max-width: 600px) {
             .consultorio-input {
                 flex-wrap: wrap;
@@ -380,56 +417,42 @@
     <!-- =====================================================
          TELA 1 — PAINEL MÉDICO
          ===================================================== -->
-
     <div id="tela-painel">
-
-        <!-- Cabeçalho -->
         <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; gap: 10px; flex-wrap: wrap;">
             <h2 style="margin: 0;">🩺 Painel Médico</h2>
-
             <button class="btn-abrir-tv" onclick="window.open('tv.html', '_blank')">
                 📺 Abrir Tela da TV
             </button>
         </div>
 
-        <!-- Consultório -->
         <div class="consultorio-input">
-            <label>Meu Consultório:</label>
+            <label for="consultorio-num">Meu Consultório:</label>
             <input type="text" id="consultorio-num" value="01">
             <span style="color: #666; font-size: 13px;">
                 Este número será exibido na TV ao chamar o paciente.
             </span>
         </div>
 
-        <!-- Lista de pacientes -->
         <div id="triagens"></div>
-
     </div>
 
     <!-- =====================================================
          TELA 2 — CONSULTA MÉDICA
          ===================================================== -->
-
     <div id="tela-consulta">
-
-        <!-- Cabeçalho -->
         <div class="cabecalho-consulta">
             <h2>🩺 Consulta Médica</h2>
-
             <button class="btn-voltar" onclick="voltarParaFila()">
                 ← Voltar para Fila
             </button>
         </div>
 
-        <!-- Identificação do paciente -->
         <div class="paciente-header">
             <h3 id="consulta-paciente-nome">Paciente</h3>
             <p>Atendimento médico</p>
         </div>
 
-        <!-- Dados da triagem -->
         <div class="dados-triagem">
-
             <div class="dado-triagem">
                 <strong>SINTOMA</strong>
                 <span id="consulta-sintoma">Não informado</span>
@@ -449,13 +472,10 @@
                 <strong>ALERGIA</strong>
                 <span id="consulta-alergia">Nenhuma</span>
             </div>
-
         </div>
 
-        <!-- Alerta de alergia -->
         <div id="alerta-alergia" class="alerta-alergia" style="display: none;"></div>
 
-        <!-- Informações da triagem -->
         <div class="box-consulta">
             <h3>📋 Informações da Triagem</h3>
             <p><strong>Observação:</strong></p>
@@ -464,21 +484,16 @@
             </p>
         </div>
 
-        <!-- Registro da consulta -->
         <div class="box-consulta">
-
             <h3>📝 Registro da Consulta</h3>
 
-            <!-- Paciente -->
             <input id="paciente" type="hidden">
 
-            <!-- Diagnóstico -->
             <div class="campo-consulta">
                 <label for="diagnostico">Diagnóstico</label>
                 <input id="diagnostico" placeholder="Digite o diagnóstico do paciente">
             </div>
 
-            <!-- Medicação -->
             <div class="campo-consulta">
                 <label for="medicacao">Medicação</label>
                 <select id="medicacao">
@@ -486,40 +501,24 @@
                 </select>
             </div>
 
-            <!-- Observações -->
             <div class="campo-consulta">
                 <label for="obs">Observações</label>
                 <textarea id="obs" placeholder="Digite as observações, orientações e informações importantes da consulta"></textarea>
             </div>
 
-            <!-- Assinatura / Identificação do Médico -->
             <div class="campo-consulta">
                 <label for="assinatura-medico">Assinatura / Nome do Médico (CRM)</label>
                 <input id="assinatura-medico" placeholder="Ex: Dr. João Silva - CRM 12345/SP">
             </div>
 
-            <!-- Status -->
             <div id="status-consulta" class="status-consulta"></div>
 
-            <!-- Botões -->
             <div class="acoes-consulta">
-
-                <button class="btn-salvar" onclick="salvar()">
-                    💾 Salvar
-                </button>
-
-                <button class="btn-alta" onclick="abrirModalAlta()">
-                    🏠 Dar Alta
-                </button>
-
-                <button class="btn-pdf" onclick="gerarPDF()">
-                    📄 Gerar PDF
-                </button>
-
+                <button class="btn-salvar" onclick="salvar()">💾 Salvar</button>
+                <button class="btn-alta" onclick="abrirModalAlta()">🏠 Dar Alta</button>
+                <button class="btn-pdf" onclick="gerarPDF()">📄 Gerar PDF</button>
             </div>
-
         </div>
-
     </div>
 
 </div>
@@ -527,73 +526,47 @@
 <!-- =========================================================
      MODAL — DAR ALTA
      ========================================================= -->
-
 <div id="modal-alta" class="modal">
-
     <div class="modal-conteudo">
-
         <h3>🏠 Dar Alta do Paciente</h3>
-
         <p>Informe o motivo da alta:</p>
-
         <textarea id="motivo-alta" placeholder="Exemplo: Paciente liberado após avaliação médica."></textarea>
 
         <p>Assinatura / Nome do Médico (CRM):</p>
         <input id="modal-assinatura-medico" placeholder="Ex: Dr. João Silva - CRM 12345/SP">
 
         <div class="modal-acoes">
-
-            <button class="btn-voltar" onclick="fecharModalAlta()">
-                Cancelar
-            </button>
-
-            <button class="btn-alta" onclick="confirmarAlta()">
-                Confirmar Alta
-            </button>
-
+            <button class="btn-voltar" onclick="fecharModalAlta()">Cancelar</button>
+            <button class="btn-alta" onclick="confirmarAlta()">Confirmar Alta</button>
         </div>
-
     </div>
-
 </div>
 
 <script>
-
-    /* =========================================================
-       VARIÁVEIS
-       ========================================================= */
-
     let triagensCarregadas = [];
     let pacienteSelecionado = null;
     let motivoAlta = "";
     let pacienteEmAlta = false;
 
-    /* =========================================================
-       CARREGAR TRIAGENS
-       ========================================================= */
-
+    /* Carregar Triagens da Fila */
     function carregar() {
-
         fetch("/triagens")
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) throw new Error("Erro na rede ao buscar triagens");
+                return response.json();
+            })
             .then(data => {
-
                 triagensCarregadas = data;
-
                 const div = document.getElementById("triagens");
                 div.innerHTML = "";
 
-                if (data.length === 0) {
-                    div.innerHTML = `
-                        <p style="color: #888; text-align: center;">
-                            Nenhum paciente na fila.
-                        </p>
-                    `;
+                if (!data || data.length === 0) {
+                    div.innerHTML = `<p style="color: #888; text-align: center;">Nenhum paciente na fila.</p>`;
                     return;
                 }
 
                 data.forEach((t, index) => {
-
+                    const nomeEscapado = escaparTexto(t.nome || '');
                     div.innerHTML += `
                         <div class="card">
                             <h3>${escaparHTML(t.nome)}</h3>
@@ -604,33 +577,25 @@
                             <p><b>Observação:</b> ${escaparHTML(t.observacao || "Nenhuma")}</p>
 
                             <div style="display: flex; gap: 8px; flex-wrap: wrap;">
-                                <button onclick="selecionar(${index})">
+                                <button class="btn-atender" onclick="selecionar(${index})">
                                     🩺 Atender
                                 </button>
-                                <button class="btn-tv" onclick="chamarNaTV('${escaparTexto(t.nome)}')">
+                                <button class="btn-tv" onclick="chamarNaTV('${nomeEscapado}')">
                                     📺 Chamar na TV
                                 </button>
                             </div>
                         </div>
                     `;
-
                 });
-
             })
             .catch(error => {
                 console.error("Erro ao carregar triagens:", error);
             });
-
     }
 
-    /* =========================================================
-       SELECIONAR PACIENTE
-       ========================================================= */
-
+    /* Selecionar Paciente */
     function selecionar(index) {
-
         const t = triagensCarregadas[index];
-
         if (!t) {
             alert("Paciente não encontrado.");
             return;
@@ -640,7 +605,6 @@
         motivoAlta = "";
         pacienteEmAlta = false;
 
-        /* Dados principais */
         document.getElementById("paciente").value = t.nome || "";
         document.getElementById("consulta-paciente-nome").textContent = t.nome || "Paciente";
         document.getElementById("consulta-sintoma").textContent = t.sintoma || "Não informado";
@@ -649,77 +613,50 @@
         document.getElementById("consulta-alergia").textContent = t.alergia || "Nenhuma";
         document.getElementById("consulta-observacao-triagem").textContent = t.observacao || "Nenhuma";
 
-        /* Preenche observação */
         document.getElementById("obs").value = t.observacao || "";
-
-        /* Limpa campos */
         document.getElementById("diagnostico").value = "";
         document.getElementById("medicacao").value = "";
         document.getElementById("assinatura-medico").value = "";
 
-        /* Alerta de alergia */
         const alerta = document.getElementById("alerta-alergia");
-
-        if (t.alergia && t.alergia !== "Nenhuma") {
+        if (t.alergia && t.alergia.toLowerCase() !== "nenhuma") {
             alerta.style.display = "block";
             alerta.textContent = "⚠️ ATENÇÃO: Paciente possui alergia a " + t.alergia;
         } else {
             alerta.style.display = "none";
         }
 
-        /* Limpa status */
         document.getElementById("status-consulta").style.display = "none";
-
-        /* Troca de tela */
         document.getElementById("tela-painel").style.display = "none";
         document.getElementById("tela-consulta").style.display = "block";
 
-        /* Vai para o topo */
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-
-        /* Alerta adicional */
-        if (t.alergia && t.alergia !== "Nenhuma") {
-            alert("⚠️ Paciente possui alergia: " + t.alergia);
-        }
-
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    /* =========================================================
-       VOLTAR PARA FILA
-       ========================================================= */
-
+    /* Voltar Para a Fila */
     function voltarParaFila() {
         document.getElementById("tela-consulta").style.display = "none";
         document.getElementById("tela-painel").style.display = "block";
-
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
+        window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
-    /* =========================================================
-       CHAMAR PACIENTE NA TV
-       ========================================================= */
-
+    /* Chamar Paciente na TV */
     function chamarNaTV(nome) {
         const consultorio = document.getElementById("consultorio-num").value || "01";
 
         fetch("/tv/chamar", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({
                 localTipo: "CONSULTÓRIO",
                 localNumero: consultorio,
                 paciente: nome
             })
         })
-        .then(response => response.json())
+        .then(response => {
+            if(!response.ok) throw new Error("Erro na requisição da TV");
+            return response.json();
+        })
         .then(() => {
             alert("✅ " + nome + " foi chamado na TV para o Consultório " + consultorio + "!");
         })
@@ -729,113 +666,71 @@
         });
     }
 
-    /* =========================================================
-       CARREGAR MEDICAÇÕES
-       ========================================================= */
-
+    /* Carregar Medicações */
     function carregarMedicacoes() {
         fetch("/lista-medicacoes")
             .then(response => response.json())
-            .then(data => {
-                preencherMedicacoes(data);
-            })
+            .then(data => preencherMedicacoes(data))
             .catch(error => {
                 console.error("Erro ao carregar medicações:", error);
                 preencherMedicacoes([]);
             });
     }
 
-    /* =========================================================
-       PREENCHER MEDICAÇÕES
-       ========================================================= */
-
+    /* Preencher Opções de Medicações */
     function preencherMedicacoes(data) {
-
         const select = document.getElementById("medicacao");
+        select.innerHTML = `<option value="">Selecione a medicação</option>`;
 
-        select.innerHTML = `
-            <option value="">
-                Selecione a medicação
-            </option>
-        `;
+        const lista = (Array.isArray(data) && data.length > 0) ? data : [
+            "Paracetamol 500 mg — exemplo",
+            "Dipirona 500 mg — exemplo",
+            "Ibuprofeno 200 mg — exemplo",
+            "Amoxicilina 500 mg — exemplo",
+            "Azitromicina 500 mg — exemplo",
+            "Loratadina 10 mg — exemplo",
+            "Omeprazol 20 mg — exemplo"
+        ];
 
-        if (Array.isArray(data) && data.length > 0) {
-            data.forEach(medicacao => {
-                const option = document.createElement("option");
-                option.value = medicacao;
-                option.textContent = medicacao;
-                select.appendChild(option);
-            });
-        } else {
-            const exemplos = [
-                "Paracetamol 500 mg — exemplo",
-                "Dipirona 500 mg — exemplo",
-                "Ibuprofeno 200 mg — exemplo",
-                "Amoxicilina 500 mg — exemplo",
-                "Azitromicina 500 mg — exemplo",
-                "Loratadina 10 mg — exemplo",
-                "Omeprazol 20 mg — exemplo"
-            ];
-
-            exemplos.forEach(medicacao => {
-                const option = document.createElement("option");
-                option.value = medicacao;
-                option.textContent = medicacao;
-                select.appendChild(option);
-            });
-        }
-
+        lista.forEach(med => {
+            const option = document.createElement("option");
+            option.value = med;
+            option.textContent = med;
+            select.appendChild(option);
+        });
     }
 
-    /* =========================================================
-       SALVAR CONSULTA
-       ========================================================= */
-
+    /* Salvar Consulta */
     function salvar() {
-
         const paciente = document.getElementById("paciente").value;
         const diagnostico = document.getElementById("diagnostico").value.trim();
         const medicacao = document.getElementById("medicacao").value;
         const obs = document.getElementById("obs").value.trim();
         const assinaturaMedico = document.getElementById("assinatura-medico").value.trim();
 
-        if (!paciente) {
-            alert("Selecione um paciente clicando em Atender.");
-            return;
-        }
-
+        if (!paciente) return alert("Selecione um paciente clicando em Atender.");
         if (!diagnostico) {
             alert("Informe o diagnóstico.");
-            document.getElementById("diagnostico").focus();
-            return;
+            return document.getElementById("diagnostico").focus();
         }
-
         if (!medicacao) {
             alert("Selecione uma medicação.");
-            document.getElementById("medicacao").focus();
-            return;
+            return document.getElementById("medicacao").focus();
         }
-
         if (!assinaturaMedico) {
             alert("Informe a assinatura/nome do médico.");
-            document.getElementById("assinatura-medico").focus();
-            return;
+            return document.getElementById("assinatura-medico").focus();
         }
 
         fetch("/consulta", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
-            body: JSON.stringify({
-                paciente,
-                diagnostico,
-                medicacao,
-                obs,
-                assinaturaMedico
-            })
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ paciente, diagnostico, medicacao, obs, assinaturaMedico })
         })
-        .then(response => response.json())
+        .then(response => {
+            if (!response.ok) throw new Error("Erro ao salvar");
+            return response.json();
+        })
         .then(() => {
             mostrarStatus("✅ Consulta salva com sucesso!");
             alert("Consulta salva com sucesso!");
@@ -844,76 +739,48 @@
             console.error("Erro ao salvar consulta:", error);
             alert("❌ Não foi possível salvar a consulta.");
         });
-
     }
 
-    /* =========================================================
-       MOSTRAR STATUS
-       ========================================================= */
-
+    /* Mostrar Status de Sucesso/Alerta */
     function mostrarStatus(mensagem) {
         const status = document.getElementById("status-consulta");
         status.textContent = mensagem;
         status.style.display = "block";
     }
 
-    /* =========================================================
-       ABRIR MODAL DE ALTA
-       ========================================================= */
-
+    /* Abrir Modal de Alta */
     function abrirModalAlta() {
-
         const paciente = document.getElementById("paciente").value;
-
-        if (!paciente) {
-            alert("Selecione um paciente clicando em Atender.");
-            return;
-        }
+        if (!paciente) return alert("Selecione um paciente clicando em Atender.");
 
         const diagnostico = document.getElementById("diagnostico").value.trim();
-
         if (!diagnostico) {
             alert("Informe o diagnóstico antes de dar alta.");
-            document.getElementById("diagnostico").focus();
-            return;
+            return document.getElementById("diagnostico").focus();
         }
 
-        // Sincroniza a assinatura principal com o modal se estiver preenchida
-        const assinaturaAtual = document.getElementById("assinatura-medico").value.trim();
-        document.getElementById("modal-assinatura-medico").value = assinaturaAtual;
-
+        document.getElementById("modal-assinatura-medico").value = document.getElementById("assinatura-medico").value.trim();
         document.getElementById("motivo-alta").value = "";
         document.getElementById("modal-alta").style.display = "flex";
-
     }
 
-    /* =========================================================
-       FECHAR MODAL
-       ========================================================= */
-
+    /* Fechar Modal */
     function fecharModalAlta() {
         document.getElementById("modal-alta").style.display = "none";
     }
 
-    /* =========================================================
-       CONFIRMAR ALTA
-       ========================================================= */
-
+    /* Confirmar Alta */
     function confirmarAlta() {
-
         const motivo = document.getElementById("motivo-alta").value.trim();
         const assinatura = document.getElementById("modal-assinatura-medico").value.trim();
 
         if (!motivo) {
             alert("Informe o motivo da alta.");
-            document.getElementById("motivo-alta").focus();
-            return;
+            return document.getElementById("motivo-alta").focus();
         }
-
         if (!assinatura) {
             alert("Informe a assinatura/nome do médico para confirmação.");
-            document.getElementById("modal-assinatura-medico").focus();
-            return;
+            return document.getElementById("modal-assinatura-medico").focus();
         }
 
         motivoAlta = motivo;
@@ -921,51 +788,32 @@
         document.getElementById("assinatura-medico").value = assinatura;
 
         fecharModalAlta();
-
         mostrarStatus("✅ Paciente recebeu alta. Motivo: " + motivoAlta + " | Médico: " + assinatura);
         alert("🏠 Alta realizada com sucesso!");
-
     }
 
-    /* =========================================================
-       GERAR PDF
-       ========================================================= */
-
+    /* Gerar PDF da Consulta */
     function gerarPDF() {
-
         const paciente = document.getElementById("paciente").value;
-
-        if (!paciente) {
-            alert("Selecione um paciente clicando em Atender.");
-            return;
-        }
-
-        const diagnostico = document.getElementById("diagnostico").value || "Não informado";
-        const medicacao = document.getElementById("medicacao").value || "Não informada";
-        const obs = document.getElementById("obs").value || "";
-        const assinaturaMedico = document.getElementById("assinatura-medico").value || "Não assinada";
+        if (!paciente) return alert("Selecione um paciente clicando em Atender.");
 
         const dadosPDF = {
             paciente,
-            diagnostico,
-            medicacao,
-            obs,
+            diagnostico: document.getElementById("diagnostico").value || "Não informado",
+            medicacao: document.getElementById("medicacao").value || "Não informada",
+            obs: document.getElementById("obs").value || "",
             emAlta: pacienteEmAlta,
             motivoAlta: pacienteEmAlta ? motivoAlta : "",
-            assinaturaMedico
+            assinaturaMedico: document.getElementById("assinatura-medico").value || "Não assinada"
         };
 
         fetch("/gerar-pdf", {
             method: "POST",
-            headers: {
-                "Content-Type": "application/json"
-            },
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify(dadosPDF)
         })
         .then(response => {
-            if (response.ok) {
-                return response.blob();
-            }
+            if (response.ok) return response.blob();
             throw new Error("Erro ao gerar o documento PDF.");
         })
         .then(blob => {
@@ -981,10 +829,9 @@
             console.error("Erro na geração do PDF:", error);
             alert("❌ Ocorreu um erro ao tentar gerar o PDF.");
         });
-
     }
 
-    /* Helper para escapar HTML */
+    /* Funções Auxiliares */
     function escaparHTML(str) {
         if (!str) return "";
         return String(str)
@@ -995,18 +842,16 @@
             .replace(/'/g, "&#039;");
     }
 
-    /* Helper para escapar strings em funções inline */
     function escaparTexto(str) {
         if (!str) return "";
-        return String(str).replace(/'/g, "\\'");
+        return String(str).replace(/\\/g, '\\\\').replace(/'/g, "\\'");
     }
 
-    /* Executa ao carregar a página */
-    window.onload = function() {
+    /* Event listener de inicialização seguro */
+    document.addEventListener("DOMContentLoaded", function() {
         carregar();
         carregarMedicacoes();
-    };
-
+    });
 </script>
 
 </body>
