@@ -1588,80 +1588,59 @@
 
     /* Gerar PDF da Consulta */
 
-    function gerarPDF() {
+    /* Gerar PDF da Consulta */
+function gerarPDF() {
+    const paciente = document.getElementById("paciente").value;
+    if (!paciente) return alert("Selecione um paciente clicando em Atender.");
 
-        const paciente = document.getElementById("paciente").value;
+    const diagnostico = document.getElementById("diagnostico").value || "Não informado";
+    const medicacao = document.getElementById("medicacao").value || "Não informada";
+    const obs = document.getElementById("obs").value || "";
+    const assinatura = document.getElementById("assinatura-medico").value || "Não assinada";
 
-        if (!paciente) return alert("Selecione um paciente clicando em Atender.");
+    // Envia o payload compatível com snake_case e camelCase
+    const dadosPDF = {
+        paciente: paciente,
+        diagnostico: diagnostico,
+        medicacao: medicacao,
+        obs: obs,
+        observacoes: obs,
+        emAlta: pacienteEmAlta,
+        motivoAlta: pacienteEmAlta ? motivoAlta : "",
+        assinaturaMedico: assinatura,
+        assinatura_medico: assinatura
+    };
 
-
-
-        const dadosPDF = {
-
-            paciente,
-
-            diagnostico: document.getElementById("diagnostico").value || "Não informado",
-
-            medicacao: document.getElementById("medicacao").value || "Não informada",
-
-            obs: document.getElementById("obs").value || "",
-
-            emAlta: pacienteEmAlta,
-
-            motivoAlta: pacienteEmAlta ? motivoAlta : "",
-
-            assinaturaMedico: document.getElementById("assinatura-medico").value || "Não assinada"
-
-        };
-
-
-
-        fetch("/gerar-pdf", {
-
-            method: "POST",
-
-            headers: { "Content-Type": "application/json" },
-
-            body: JSON.stringify(dadosPDF)
-
-        })
-
-        .then(response => {
-
-            if (response.ok) return response.blob();
-
-            throw new Error("Erro ao gerar o documento PDF.");
-
-        })
-
-        .then(blob => {
-
-            const url = window.URL.createObjectURL(blob);
-
-            const a = document.createElement("a");
-
-            a.href = url;
-
-            a.download = `Consulta_${paciente.replace(/\s+/g, '_')}.pdf`;
-
-            document.body.appendChild(a);
-
-            a.click();
-
-            a.remove();
-
-        })
-
-        .catch(error => {
-
-            console.error("Erro na geração do PDF:", error);
-
-            alert("❌ Ocorreu um erro ao tentar gerar o PDF.");
-
-        });
-
-    }
-
+    fetch("/gerar-pdf", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(dadosPDF)
+    })
+    .then(async response => {
+        if (!response.ok) {
+            // Tenta ler o texto de erro retornado pelo servidor no Render
+            const erroTexto = await response.text();
+            throw new Error(erroTexto || `Erro HTTP ${response.status}`);
+        }
+        return response.blob();
+    })
+    .then(blob => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement("a");
+        a.href = url;
+        // Normaliza o nome do arquivo removendo acentos
+        const nomeLimpo = paciente.normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/\s+/g, "_");
+        a.download = `Consulta_${nomeLimpo}.pdf`;
+        document.body.appendChild(a);
+        a.click();
+        a.remove();
+        window.URL.revokeObjectURL(url);
+    })
+    .catch(error => {
+        console.error("Erro na geração do PDF:", error);
+        alert("❌ Ocorreu um erro ao tentar gerar o PDF: " + error.message);
+    });
+}
 
 
     /* Funções Auxiliares */
